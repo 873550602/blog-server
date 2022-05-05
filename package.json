@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "ts-node src/bin/www.ts",
+    "startxx": "nodemon --watch **/*.ts --exec \"ts-node-esm\" src/bin/www.ts",
     "dev": "./node_modules/.bin/nodemon bin/www",
     "prd": "pm2 start bin/www",
     "test": "jest --forceExit"
@@ -20,10 +21,13 @@
     "koa-json": "^2.0.2",
     "koa-logger": "^2.0.1",
     "koa-onerror": "^4.2.0",
+    "koa-passport": "^3.0.0",
     "koa-requestid": "^2.1.0",
     "koa-router": "^7.1.1",
+    "koa-session": "^6.2.0",
     "koa-static": "^3.0.0",
     "koa-views": "^8.0.0",
+    "passport-local": "^1.0.0",
     "pug": "^2.0.0-rc.1"
   },
   "devDependencies": {
@@ -35,10 +39,13 @@
     "@types/koa-bodyparser": "^4.3.7",
     "@types/koa-json": "^2.0.20",
     "@types/koa-logger": "^3.1.2",
+    "@types/koa-passport": "^4.0.3",
     "@types/koa-router": "^7.4.4",
+    "@types/koa-session": "^5.10.6",
     "@types/koa-static": "^4.0.2",
     "@types/koa-views": "^7.0.0",
     "@types/node": "^17.0.29",
+    "@types/passport-local": "^1.0.34",
     "babel-jest": "^28.0.3",
     "chalk": "^4.1.1",
     "jest": "^27.5.1",

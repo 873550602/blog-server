@@ -4,13 +4,13 @@ export type objType = {
 type propertiesType = {
   [key: string]: any
   type?:
-    | 'string'
-    | 'object'
-    | 'array'
-    | 'null'
-    | 'boolean'
-    | 'number'
-    | 'integer'
+  | 'string'
+  | 'object'
+  | 'array'
+  | 'null'
+  | 'boolean'
+  | 'number'
+  | 'integer'
   properties?: propertiesType
   contentEncoding?: 'base64'
   contentMediaType?: 'image/png' | 'text/html' | 'application/json'
@@ -45,7 +45,13 @@ export type schemaType = {
   $id?: string
   title?: string
   description?: string
-  type: string
+  type: 'string'
+  | 'object'
+  | 'array'
+  | 'null'
+  | 'boolean'
+  | 'number'
+  | 'integer'
   required?: string[]
   properties?: { [key: string]: propertiesType }
 }

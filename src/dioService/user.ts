@@ -16,6 +16,20 @@ export const deleteUserByIdDio = async (id: string): Promise<boolean> => {
   const r = await Mysql.db.delete(TableName.user).where('id', id).execute()
   return r.affectedRows === 1
 }
+// 通过id获取用户
+export const getUserByIdDio = async (id: string): Promise<User | undefined> => {
+  return await Mysql.db.select("*").from(TableName.user).where('id', id).queryRow()
+}
+// 登录认证
+export const loginDio = async (account: string, password: string): Promise<User | undefined> => {
+  return await Mysql.db.select("*").from(TableName.user).where('account', account).where('password', password).queryRow()
+}
+
+// 通过id修改密码
+export const changePasswordByIdDio = async (id: string, password: string): Promise<boolean> => {
+  const r = await Mysql.db.update(TableName.user, { password }).where("id", id).execute()
+  return r.affectedRows === 1
+}
 
 /**
  * 验证账号（account）在数据库是否已存在
