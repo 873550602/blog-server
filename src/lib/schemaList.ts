@@ -59,5 +59,35 @@ export const changePasswordSchema: schemaType = {
       // pattern: '(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[#$_*@%!])',
       minLength: 8,
     }
-  }
+  },
+  required: ["id", "newPassword", "oldPassword"]
+}
+
+export const changeUserInfoSchema: schemaType = {
+  title: "changeUserInfo",
+  type: "object",
+  properties: {
+    id: {
+      type: 'string',
+      minLength: 1
+    },
+    sex: {
+      type: 'number',
+      pattern: '0|1'
+    },
+    age: {
+      type: 'number',
+      maximum: 120
+    },
+    labels: {
+      type: 'array',
+      uniqueItems: true,
+      items: {
+        pattern: '^(javascript|css|html|node|vue|react|angular)$',
+      },
+      minItems: 1,
+      maxItems: 3,
+    },
+  },
+  required: ["id"]
 }

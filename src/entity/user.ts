@@ -6,7 +6,7 @@ export default class UserEntity implements User {
   account: string
   labels: string[]
   password: string
-  avatarUrl?: string
+  avatar?: string
   realName?: string
   phoneNumbers?: string[]
   email?: string
@@ -15,7 +15,7 @@ export default class UserEntity implements User {
     password:string,
     account: string,
     labels: string[],
-    avatarUrl?: string,
+    avatar?: string,
     realName?: string,
     phoneNumbers?: string[],
     email?: string
@@ -25,7 +25,7 @@ export default class UserEntity implements User {
     this.password = password
     this.realName = realName
     this.labels = labels
-    this.avatarUrl = avatarUrl
+    this.avatar = avatar
     this.phoneNumbers = phoneNumbers
     this.email = email
   }
@@ -36,7 +36,7 @@ export default class UserEntity implements User {
       obj.account,
       obj.password,
       obj.labels,
-      obj.avatarUrl,
+      obj.avatar,
       obj.realName,
       obj.phoneNumbers,
       obj.email
@@ -49,7 +49,7 @@ export default class UserEntity implements User {
       account: entity.account,
       password: entity.password,
       labels: entity.labels,
-      avatarUrl: entity.avatarUrl,
+      avatar: entity.avatar,
       realName: entity.realName,
       phoneNumbers: entity.phoneNumbers,
       email: entity.email,

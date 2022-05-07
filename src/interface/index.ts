@@ -3,7 +3,7 @@ export interface User {
   password: string
   account: string
   labels: string[]
-  avatarUrl?: string
+  avatar?: string
   realName?: string
   phoneNumbers?: string[]
   email?: string

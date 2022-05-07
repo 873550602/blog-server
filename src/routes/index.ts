@@ -4,6 +4,8 @@ import { inputsValidator } from '../lib/middleware.js'
 import requestId from 'koa-requestid'
 import { createUserController, loginController } from '../controller/user.js'
 import passport from 'koa-passport'
+import { generateInitResponse } from '../lib/utils.js'
+import { getUserInfoByIdDio } from '../dioService/user.js'
 const router = new Router()
 
 router.get('/', async (ctx, next) => {
@@ -13,7 +15,7 @@ router.get('/', async (ctx, next) => {
 })
 
 router.post('/login', inputsValidator(userLoginSchema), (ctx, next) => {
-  return  passport.authenticate("local", (err, user) => {
+  return passport.authenticate("local", (err, user) => {
     if (!user) {
       ctx.body = {
         code: -1,
@@ -28,6 +30,17 @@ router.post('/login', inputsValidator(userLoginSchema), (ctx, next) => {
       return ctx.login(user)
     }
   })(ctx, next)
+})
+
+router.get('/logout/:id', async(ctx) => {
+  const { id } = ctx.params
+  const r = await getUserInfoByIdDio(id)
+  if (!r) {
+    ctx.body = generateInitResponse(-1, "id无效")
+    return
+  }
+  ctx.logout()
+  ctx.body = generateInitResponse(0, "ok")
 })
 
 router.post(

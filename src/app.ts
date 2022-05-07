@@ -3,6 +3,7 @@ import views from 'koa-views'
 import json from 'koa-json'
 // import onerror from 'koa-onerror'
 import bodyparser from 'koa-bodyparser'
+import formData from 'koa-formidable'
 import logger from 'koa-logger'
 import static_ from 'koa-static'
 import path from 'path'
@@ -39,13 +40,13 @@ const sessionConfig = {
 app.use(session(sessionConfig, app))
 
 // 鉴权
-passport.serializeUser(function (user, done) {
-  done(null, user)
+passport.serializeUser(function (user: any, done) {
+  done(null, user.id)
 })
 
-passport.deserializeUser(async function (user:User, done) {
+passport.deserializeUser(async function (id: string, done) {
   try {
-    done(null, user)
+    done(null, id)
   } catch (err) {
     done(err)
   }
@@ -70,10 +71,12 @@ app.use(passport.session())
 // error handler
 // onerror(app)
 
+app.use(formData()) // 必须放在bodyparser上面
 // middlewares
 app.use(
   bodyparser({
     enableTypes: ['json', 'form', 'text'],
+    formLimit: (3 * 1024) + "kb"
   })
 )
 app.use(json())

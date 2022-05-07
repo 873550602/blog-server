@@ -1,7 +1,7 @@
 import Router from 'koa-router'
-import { changePasswordByIdController } from '../controller/user.js'
+import { changePasswordByIdController, changeUserInfoByIdController, getUserInfoByIdController, saveAvatarByIdController } from '../controller/user.js'
 import { inputsValidator } from '../lib/middleware.js'
-import { changePasswordSchema } from '../lib/schemaList.js'
+import { changePasswordSchema, changeUserInfoSchema } from '../lib/schemaList.js'
 
 const router = new Router()
 
@@ -16,8 +16,21 @@ router.post('/changePassword', inputsValidator(changePasswordSchema), async (ctx
   ctx.body = r
 })
 
-router.get('/bar', function (ctx: any, next: any) {
-  ctx.body = 'this is a users/bar response'
+router.get('/getUserInfo/:id', async (ctx) => {
+  ctx.body = await getUserInfoByIdController(ctx.params.id)
+})
+
+router.post('/saveAvatar/:id', async (ctx) => {
+  const id = ctx.params.id;
+  const file = ctx.request.files['file']
+  ctx.body = await saveAvatarByIdController(id, file, ctx.origin)
+})
+
+router.post('/changeInfoById', inputsValidator(changeUserInfoSchema), async (ctx) => {
+  const { id } = ctx.request.body
+  delete ctx.request.body.id
+  ctx.body = await changeUserInfoByIdController(id, ctx.request.body)
+  
 })
 
 export default router
