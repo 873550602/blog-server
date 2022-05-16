@@ -1,7 +1,7 @@
 import TableName from '../lib/tableNames.js'
 import Mysql from '../lib/mysql/index.js'
 import { deSerializeSqlData, enSerializeSqlData } from '../lib/utils.js'
-
+type TransObj = { trans?: any }
 export default class UserDio {
   /**
    * 创建用户
@@ -76,9 +76,12 @@ export default class UserDio {
   /**
    * 通过id修改普通信息
    */
-  static async changeUserInfoById(id: string, info: ChangeUserForm): Promise<boolean> {
+  static async changeUserInfoById(id: string, info: ChangeUserForm, {
+    trans
+  }: TransObj = {}): Promise<boolean> {
+    const db = trans || Mysql.db
     const info_ = enSerializeSqlData(info, ['labels', 'likes', 'collects', 'follows', 'followeds'])
-    const r = await Mysql.db.update(TableName.user, info_).where('id', id).execute()
+    const r = await db.update(TableName.user, info_).where('id', id).execute()
     return r.affectedRows === 1
   }
 

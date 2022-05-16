@@ -1,6 +1,7 @@
 import { deSerializeSqlData, enSerializeSqlData } from "../lib/utils.js";
 import Mysql from "../lib/mysql/index.js"
 import TableName from "../lib/tableNames.js"
+type TransObj = { trans?: any }
 export default class ArticleDio {
     /**
      * 创建文章
@@ -29,9 +30,12 @@ export default class ArticleDio {
     /**
      * 通过id更新文章信息
      */
-    static async changeArticleById(id: string, info: ChangeArticleForm): Promise<boolean> {
+    static async changeArticleById(id: string, info: ChangeArticleForm, {
+        trans
+    }: TransObj = {}): Promise<boolean> {
+        const db = trans || Mysql.db
         const info_ = enSerializeSqlData(info, ['collectionVolumeIds', 'commentVolumeIds'])
-        const r = await Mysql.db.update(TableName.article, info_).where('id', id).execute()
+        const r = await db.update(TableName.article, info_).where('id', id).execute()
         return r.affectedRows === 1
     }
 

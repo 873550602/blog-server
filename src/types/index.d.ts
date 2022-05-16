@@ -30,9 +30,9 @@ declare interface ChangeArticleForm {
     label?: string,
     reading?: number,
     collectionVolume?: number,
-    collectionVolumeIds?: string[],
+    collectionIds?: string[],
     commentVolume?: number,
-    commentVolumeIds?: string[],
+    commentIds?: string[],
     likeds?: number
 }
 declare interface Article extends CreateArticleForm {
@@ -41,9 +41,9 @@ declare interface Article extends CreateArticleForm {
     author: string
     reading?: number,
     collectionVolume?: number,
-    collectionVolumeIds?: string[],
+    collectionIds?: string[],
     commentVolume?: number,
-    commentVolumeIds?: string[],
+    commentIds?: string[],
     likeds?: number
 }
 declare interface ArticlePageList extends PageResponse<Article> { }
@@ -74,4 +74,15 @@ declare interface User {
     collects?: string[]
     follows?: string[]
     followeds?: string[]
+}
+
+declare interface CreateCommentForm {
+    content: string
+    commentator: string
+    commented: string
+}
+declare interface Comment extends CreateCommentForm {
+    id: string
+    createTime: number
+    likeds?: number
 }

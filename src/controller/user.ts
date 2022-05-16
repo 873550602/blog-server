@@ -3,6 +3,7 @@ import UserDio from "../dioService/user.js";
 import path from 'path'
 import _ from 'lodash'
 import ArticleDio from "../dioService/article.js";
+import Mysql from "../lib/mysql/index.js";
 export default class UserController {
     static async createUser(user: User): Promise<ResponseObj<null>> {
         if (await UserDio.accountIsUnique(user.account)) return generateInitResponse(-1, `账户${user.account}已存在`)
@@ -32,9 +33,9 @@ export default class UserController {
                 id: r.id,
                 account: r.account,
                 avatar: r.avatar,
-                sex:r.sex,
-                age:r.age,
-                likes:r.likes
+                sex: r.sex,
+                age: r.age,
+                likes: r.likes
             })
         } else {
             return generateInitResponse(-1, '用户名或密码错误')
@@ -88,8 +89,8 @@ export default class UserController {
 
     /**
      * 关注或取消关注
-     * @param {id} 自己的id
-     * @param {followId} 关注的人的id
+     * @param id 用户的id
+     * @param followId 关注者的id
      */
     static async followUserById(id: string, followId: string): Promise<ResponseObj<null>> {
         const follows = await UserDio.getFollowsById(id) || []
@@ -120,11 +121,9 @@ export default class UserController {
 
     /**
      * 点赞或取消点赞
-     */
-    /**
-     * 关注或取消关注
-     * @param {id} 自己的id
-     * @param {articleId} 关注的人的id
+     * @param  id 用户id
+     * @param articleId 文章id
+     *  
      */
     static async likeArticleById(id: string, articleId: string): Promise<ResponseObj<null>> {
         const likes = await UserDio.getLikesById(id) || []
@@ -151,4 +150,47 @@ export default class UserController {
             return generateInitResponse(-1, 'error')
         }
     }
+    /**
+     * 收藏或取消收藏文章
+     * @param id 用户id
+     * @param articleId 文章id
+     */
+    static async collectArticleById(id: string, articleId: string): Promise<ResponseObj<null>> {
+        // 获取收藏文章ids
+        const collectIds = (await UserDio.getUserInfoById(id, ['collects']))?.collects || []
+        // 获取文章被收藏的用户ids
+        const userIds = (await ArticleDio.getArticleInfoById(id, ['collectionIds']))?.collectionIds || []
+        let collectionVolume = 0
+
+        if (collectIds.includes(articleId)) {
+            // 如果已包含文章id，则取消收藏
+            _.remove(collectIds, (v: string) => v === articleId)
+            _.remove(userIds, (v: string) => v === id)
+        } else {
+            collectIds.push(articleId)
+            userIds.push(id)
+        }
+        collectionVolume = collectIds.filter(v => v).length
+        // 开始事务处理
+        const trans = await Mysql.db.useTransaction()
+        try {
+            const r1 = await UserDio.changeUserInfoById(id, {
+                collects: collectIds
+            }, { trans })
+            const r2 = await ArticleDio.changeArticleById(articleId, {
+                collectionVolume,
+                collectionIds: userIds
+            }, { trans })
+            await trans.commit()
+            if (r1 && r2) {
+                return generateInitResponse(0, 'ok')
+            } else {
+                return generateInitResponse(-1, 'error')
+            }
+        } catch (error) {
+            await trans.rollback()
+            return generateInitResponse(-1, 'error')
+        }
+    }
+
 }

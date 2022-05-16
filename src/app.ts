@@ -15,6 +15,7 @@ import LocalStrategy from 'passport-local'
 import index from './routes/index.js'
 import users from './routes/users.js'
 import article from './routes/article.js'
+import comment from './routes/comment.js'
 import UserController from './controller/user.js'
 
 
@@ -116,6 +117,7 @@ app.use(async (ctx, next) => {
 app.use(index.routes()).use(index.allowedMethods())
 app.use(users.routes()).use(users.allowedMethods())
 app.use(article.routes()).use(article.allowedMethods())
+app.use(comment.routes()).use(comment.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

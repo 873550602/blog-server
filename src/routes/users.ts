@@ -1,7 +1,7 @@
 import Router from 'koa-router'
 import UserController from '../controller/user.js'
 import { inputsValidator } from '../lib/middleware.js'
-import { changePasswordSchema, changeUserInfoSchema, followUserSchema, likeArticleSchema } from '../lib/schemaList.js'
+import { changePasswordSchema, changeUserInfoSchema, collectArticleSchema, followUserSchema, likeArticleSchema } from '../lib/schemaList.js'
 
 const router = new Router({ prefix: '/users' })
 
@@ -41,6 +41,12 @@ router.get('/likeArticle/:articleId', inputsValidator(likeArticleSchema), async 
   const articleId = ctx.params.articleId
   const userId = ctx.state.user.id
   ctx.body = await UserController.likeArticleById(userId, articleId);
+})
+
+router.get('/collectArticle/:articleId', inputsValidator(collectArticleSchema), async (ctx) => {
+  const articleId = ctx.params.articleId
+  const userId = ctx.state.user.id
+  ctx.body = await UserController.collectArticleById(userId, articleId);
 })
 
 export default router

@@ -37,4 +37,14 @@ export default class ArticleController {
             return generateInitResponse(-1, 'error')
         }
     }
+
+    static async changeArticleReadingById(id: string): Promise<ResponseObj<null>> {
+        let reading = (await ArticleDio.getArticleInfoById(id, ['reading']))?.reading || 0
+        const r = await ArticleDio.changeArticleById(id, { reading: ++reading })
+        if (r) {
+            return generateInitResponse(0, 'ok');
+        } else {
+            return generateInitResponse(-1, 'error')
+        }
+    }
 }
