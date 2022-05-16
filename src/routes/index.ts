@@ -2,10 +2,10 @@ import Router from 'koa-router'
 import { userLoginSchema, userSchema } from '../lib/schemaList.js'
 import { inputsValidator } from '../lib/middleware.js'
 import requestId from 'koa-requestid'
-import { createUserController, loginController } from '../controller/user.js'
+import UserController from '../controller/user.js'
 import passport from 'koa-passport'
 import { generateInitResponse } from '../lib/utils.js'
-import { getUserInfoByIdDio } from '../dioService/user.js'
+import UserDioService from '../dioService/user.js'
 const router = new Router()
 
 router.get('/', async (ctx, next) => {
@@ -32,9 +32,9 @@ router.post('/login', inputsValidator(userLoginSchema), (ctx, next) => {
   })(ctx, next)
 })
 
-router.get('/logout/:id', async(ctx) => {
+router.get('/logout/:id', async (ctx) => {
   const { id } = ctx.params
-  const r = await getUserInfoByIdDio(id)
+  const r = await UserDioService.getUserInfoById(id)
   if (!r) {
     ctx.body = generateInitResponse(-1, "id无效")
     return
@@ -49,7 +49,7 @@ router.post(
   requestId(),
   async (ctx) => {
     ctx.request.body.id = ctx.state.id;
-    ctx.body = await createUserController(ctx.request.body)
+    ctx.body = await UserController.createUser(ctx.request.body)
   }
 )
 

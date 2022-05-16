@@ -91,3 +91,86 @@ export const changeUserInfoSchema: schemaType = {
   },
   required: ["id"]
 }
+
+export const createArticleSchema: schemaType = {
+  title: "createArticle",
+  type: "object",
+  properties: {
+    title: {
+      type: 'string',
+      minLength: 1,
+    },
+    content: {
+      type: 'string',
+      minLength: 1
+    },
+    summary: {
+      type: 'string',
+      minLength: 1
+    },
+    label: {
+      type: 'string',
+      minLength: 1
+    },
+  },
+  required: ['title', 'content', 'summary', 'label']
+}
+
+export const getArticlesSchema: schemaType = {
+  title: "createArticle",
+  type: "object",
+  properties: {
+    curr: {
+      type: 'number',
+      minimum: 1
+    },
+    rows: {
+      type: 'number',
+      minimum: 1
+    },
+    object: {
+      type: 'object',
+      properties: {
+        label: {
+          type: 'string',
+          minLength: 1
+        }
+      },
+      required: ['label']
+    }
+  },
+  required: ['curr', 'rows', 'object']
+}
+export const getArticleByIdSchema: schemaType = {
+  title: "createArticle",
+  type: "object",
+  properties: {
+    id: {
+      type: 'string',
+      minLength: 1
+    },
+  },
+  required: ['id',]
+}
+export const followUserSchema: schemaType = {
+  title: "createArticle",
+  type: "object",
+  properties: {
+    followedId: {
+      type: 'string',
+      minLength: 1
+    },
+  },
+  required: ['followedId',]
+}
+export const likeArticleSchema: schemaType = {
+  title: "createArticle",
+  type: "object",
+  properties: {
+    articleId: {
+      type: 'string',
+      minLength: 1
+    },
+  },
+  required: ['articleId',]
+}

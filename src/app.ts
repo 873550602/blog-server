@@ -14,8 +14,8 @@ import LocalStrategy from 'passport-local'
 
 import index from './routes/index.js'
 import users from './routes/users.js'
-import { loginController } from './controller/user.js'
-import { User } from './interface/index.js'
+import article from './routes/article.js'
+import UserController from './controller/user.js'
 
 
 const app = new Koa()
@@ -41,12 +41,12 @@ app.use(session(sessionConfig, app))
 
 // 鉴权
 passport.serializeUser(function (user: any, done) {
-  done(null, user.id)
+  done(null, user)
 })
 
-passport.deserializeUser(async function (id: string, done) {
+passport.deserializeUser(async function (user: string, done) {
   try {
-    done(null, id)
+    done(null, user)
   } catch (err) {
     done(err)
   }
@@ -56,7 +56,7 @@ passport.use(new LocalStrategy.Strategy({
   usernameField: 'account',    // define the parameter in req.body that passport can use as username and password
   passwordField: 'password'
 }, async (account, password, done) => {
-  const r = await loginController(account, password)
+  const r = await UserController.login(account, password)
   if (r.code === 0) {
     done(null, r.data)
   } else {
@@ -115,6 +115,7 @@ app.use(async (ctx, next) => {
 // routes
 app.use(index.routes()).use(index.allowedMethods())
 app.use(users.routes()).use(users.allowedMethods())
+app.use(article.routes()).use(article.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

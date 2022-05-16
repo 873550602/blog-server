@@ -25,7 +25,7 @@ export const inputsValidator = (schema: object, options?: Options) => {
       local.zh(validate.errors)
       ctx.body = {
         code: -1,
-        massage: 'invalid inputs',
+        message: 'invalid inputs',
         errorData: validate.errors?.map((item) => ({
           instancePath: item.instancePath,
           message: item.message,

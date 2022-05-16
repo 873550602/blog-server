@@ -1,10 +1,9 @@
-import { ResponseObj } from 'src/interface'
 import { objType } from './types'
 import fs from 'fs'
 
 // 是否是无效的
 export const isInvalid = (v: any) =>
-  v === null || (v === undefined && v === NaN)
+  v === null || v === undefined || v === NaN
 // 生成json-schema对象
 export const genSchemaJson = (
   data: objType = {},
@@ -27,7 +26,7 @@ export const genSchemaJson = (
 }
 
 // 生成格式化的response
-export const generateInitResponse = (code: number, message: string, data?: any): ResponseObj => ({ code, message, data })
+export const generateInitResponse = (code: number, message: string, data?: any): ResponseObj<any> => ({ code, message, data })
 
 /**
  * 保持图片到指定路径
@@ -51,4 +50,31 @@ export const saveFile = (path: string, file: any, name?: string, isCatch: boolea
   // 控制缓存
   const dt = Date.now().toString()
   return isCatch ? filename + '?' + dt : filename
+}
+
+/**
+  * 序列号入口数据，主要把array转string
+  */
+export const enSerializeSqlData = (map: StringObj | undefined, keys: string[]): StringObj | undefined => {
+  if (isInvalid(map)) return map;
+  keys.forEach(key => {
+    if (Array.isArray(map![key])) {
+      if (isInvalid(map![key])) return;
+      map![key] = map![key].join(',')
+    }
+  })
+  return map
+}
+/**
+ * 序列号入口数据，主要把string转array
+ */
+export function deSerializeSqlData<T>(map: T | undefined, keys: string[]): T | undefined {
+  if (isInvalid(map)) return map;
+  keys.forEach(key => {
+    if (typeof map![key] === 'string') {
+      if (isInvalid(map![key])) return;
+      map![key] = map![key].split(',')
+    }
+  })
+  return map
 }
