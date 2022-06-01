@@ -27,8 +27,8 @@ export const userSchema: schemaType = {
 }
 
 export const userLoginSchema: schemaType = {
-  title: "userLogin",
-  type: "object",
+  title: 'userLogin',
+  type: 'object',
   properties: {
     account: {
       type: 'string',
@@ -38,16 +38,16 @@ export const userLoginSchema: schemaType = {
       type: 'string',
       // pattern: '(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[#$_*@%!])',
       minLength: 8,
-    }
-  }
+    },
+  },
 }
 export const changePasswordSchema: schemaType = {
-  title: "changePassword",
-  type: "object",
+  title: 'changePassword',
+  type: 'object',
   properties: {
     id: {
       type: 'string',
-      minLength: 1
+      minLength: 1,
     },
     newPassword: {
       type: 'string',
@@ -58,26 +58,26 @@ export const changePasswordSchema: schemaType = {
       type: 'string',
       // pattern: '(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[#$_*@%!])',
       minLength: 8,
-    }
+    },
   },
-  required: ["id", "newPassword", "oldPassword"]
+  required: ['id', 'newPassword', 'oldPassword'],
 }
 
 export const changeUserInfoSchema: schemaType = {
-  title: "changeUserInfo",
-  type: "object",
+  title: 'changeUserInfo',
+  type: 'object',
   properties: {
     id: {
       type: 'string',
-      minLength: 1
+      minLength: 1,
     },
     sex: {
       type: 'number',
-      pattern: '0|1'
+      pattern: '^[01]$',
     },
     age: {
       type: 'number',
-      maximum: 120
+      maximum: 120,
     },
     labels: {
       type: 'array',
@@ -89,12 +89,12 @@ export const changeUserInfoSchema: schemaType = {
       maxItems: 3,
     },
   },
-  required: ["id"]
+  required: ['id'],
 }
 
 export const createArticleSchema: schemaType = {
-  title: "createArticle",
-  type: "object",
+  title: 'createArticle',
+  type: 'object',
   properties: {
     title: {
       type: 'string',
@@ -102,117 +102,147 @@ export const createArticleSchema: schemaType = {
     },
     content: {
       type: 'string',
-      minLength: 1
+      minLength: 1,
     },
     summary: {
       type: 'string',
-      minLength: 1
+      minLength: 1,
     },
     label: {
       type: 'string',
-      minLength: 1
+      minLength: 1,
     },
   },
-  required: ['title', 'content', 'summary', 'label']
+  required: ['title', 'content', 'summary', 'label'],
 }
 
 export const getArticlesSchema: schemaType = {
-  title: "getArticles",
-  type: "object",
+  title: 'getArticles',
+  type: 'object',
   properties: {
     curr: {
       type: 'number',
-      minimum: 1
+      minimum: 1,
     },
     rows: {
       type: 'number',
-      minimum: 1
+      minimum: 1,
     },
     object: {
       type: 'object',
       properties: {
         label: {
           type: 'string',
-          minLength: 1
-        }
+          minLength: 1,
+        },
       },
-      required: ['label']
-    }
+      required: ['label'],
+    },
   },
-  required: ['curr', 'rows', 'object']
+  required: ['curr', 'rows', 'object'],
 }
 export const getArticleByIdSchema: schemaType = {
-  title: "getArticleById",
-  type: "object",
+  title: 'getArticleById',
+  type: 'object',
   properties: {
     id: {
       type: 'string',
-      minLength: 1
+      minLength: 1,
     },
   },
-  required: ['id',]
+  required: ['id'],
+}
+export const getCommentByIdSchema: schemaType = {
+  title: 'getCommentById',
+  type: 'object',
+  properties: {
+    id: {
+      type: 'string',
+      minLength: 1,
+    },
+  },
+  required: ['id'],
 }
 export const followUserSchema: schemaType = {
-  title: "followUser",
-  type: "object",
+  title: 'followUser',
+  type: 'object',
   properties: {
     followedId: {
       type: 'string',
-      minLength: 1
+      minLength: 1,
     },
   },
-  required: ['followedId',]
+  required: ['followedId'],
 }
 export const likeArticleSchema: schemaType = {
-  title: "likeArticle",
-  type: "object",
+  title: 'likeArticle',
+  type: 'object',
   properties: {
     articleId: {
       type: 'string',
-      minLength: 1
+      minLength: 1,
     },
   },
-  required: ['articleId',]
+  required: ['articleId'],
 }
 export const incrementReadingByIdSchema: schemaType = {
-  title: "incrementReadingById",
-  type: "object",
+  title: 'incrementReadingById',
+  type: 'object',
   properties: {
     id: {
       type: 'string',
-      minLength: 1
+      minLength: 1,
     },
   },
-  required: ['id',]
+  required: ['id'],
 }
 export const collectArticleSchema: schemaType = {
-  title: "collectArticle",
-  type: "object",
+  title: 'collectArticle',
+  type: 'object',
   properties: {
     articleId: {
       type: 'string',
-      minLength: 1
+      minLength: 1,
     },
   },
-  required: ['articleId']
+  required: ['articleId'],
 }
 
 export const createCommentSchema: schemaType = {
-  title: "createComment",
-  type: "object",
+  title: 'createComment',
+  type: 'object',
   properties: {
     content: {
       type: 'string',
-      minLength: 1
+      minLength: 1,
     },
     commentator: {
       type: 'string',
-      minLength: 1
+      minLength: 1,
     },
     commented: {
       type: 'string',
-      minLength: 1
+      minLength: 1,
+    },
+    type: {
+      type: 'number',
+      pattern: '^[12]$',
     },
   },
-  required: ['content', 'commentator', 'commented']
+  required: ['content', 'commentator', 'commented', 'type'],
+}
+export const createDictionarySchema: schemaType = {
+  title: 'createDictionary',
+  type: 'object',
+  properties: {
+    name: {
+      type: 'string',
+      minLength: 1,
+    },
+    json: {
+      type: 'string',
+      minLength: 1,
+    },
+  },
+  required: ['name', 'json'],
 }
