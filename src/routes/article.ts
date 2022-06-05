@@ -44,12 +44,19 @@ router.get(
     ctx.body = await ArticleController.getArticleInfoById(id)
   }
 )
-router.get(
+router.post(
   '/getComment/:id',
   inputsValidator(getCommentByIdSchema),
   async (ctx) => {
     const id = ctx.params.id
-    ctx.body = await ArticleController.getCommentsById(id)
+    const { is, threshold, limit } = ctx.request.body?.hot || {}
+    is
+      ? (ctx.body = await ArticleController.getHotCommentsById(id, {
+          hot: is,
+          threshold,
+          limit,
+        }))
+      : (ctx.body = await ArticleController.getCommentsById(id))
   }
 )
 

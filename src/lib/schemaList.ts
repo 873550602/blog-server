@@ -1,6 +1,6 @@
-import { schemaType } from './types'
+import { SchemaType } from './types'
 
-export const userSchema: schemaType = {
+export const userSchema: SchemaType = {
   title: 'user',
   type: 'object',
   properties: {
@@ -26,7 +26,7 @@ export const userSchema: schemaType = {
   required: ['account', 'password', 'labels'],
 }
 
-export const userLoginSchema: schemaType = {
+export const userLoginSchema: SchemaType = {
   title: 'userLogin',
   type: 'object',
   properties: {
@@ -41,7 +41,7 @@ export const userLoginSchema: schemaType = {
     },
   },
 }
-export const changePasswordSchema: schemaType = {
+export const changePasswordSchema: SchemaType = {
   title: 'changePassword',
   type: 'object',
   properties: {
@@ -63,7 +63,7 @@ export const changePasswordSchema: schemaType = {
   required: ['id', 'newPassword', 'oldPassword'],
 }
 
-export const changeUserInfoSchema: schemaType = {
+export const changeUserInfoSchema: SchemaType = {
   title: 'changeUserInfo',
   type: 'object',
   properties: {
@@ -92,7 +92,7 @@ export const changeUserInfoSchema: schemaType = {
   required: ['id'],
 }
 
-export const createArticleSchema: schemaType = {
+export const createArticleSchema: SchemaType = {
   title: 'createArticle',
   type: 'object',
   properties: {
@@ -116,7 +116,7 @@ export const createArticleSchema: schemaType = {
   required: ['title', 'content', 'summary', 'label'],
 }
 
-export const getArticlesSchema: schemaType = {
+export const getArticlesSchema: SchemaType = {
   title: 'getArticles',
   type: 'object',
   properties: {
@@ -141,7 +141,7 @@ export const getArticlesSchema: schemaType = {
   },
   required: ['curr', 'rows', 'object'],
 }
-export const getArticleByIdSchema: schemaType = {
+export const getArticleByIdSchema: SchemaType = {
   title: 'getArticleById',
   type: 'object',
   properties: {
@@ -152,7 +152,7 @@ export const getArticleByIdSchema: schemaType = {
   },
   required: ['id'],
 }
-export const getCommentByIdSchema: schemaType = {
+export const getCommentByIdSchema: SchemaType = {
   title: 'getCommentById',
   type: 'object',
   properties: {
@@ -160,10 +160,25 @@ export const getCommentByIdSchema: schemaType = {
       type: 'string',
       minLength: 1,
     },
+    hot: {
+      type: 'object',
+      properties: {
+        is: {
+          type: 'boolean',
+        },
+        threshold: {
+          type: 'number',
+        },
+        limit: {
+          type: 'number',
+        },
+      },
+      required: ['is'],
+    },
   },
   required: ['id'],
 }
-export const followUserSchema: schemaType = {
+export const followUserSchema: SchemaType = {
   title: 'followUser',
   type: 'object',
   properties: {
@@ -174,7 +189,7 @@ export const followUserSchema: schemaType = {
   },
   required: ['followedId'],
 }
-export const likeArticleSchema: schemaType = {
+export const likeArticleSchema: SchemaType = {
   title: 'likeArticle',
   type: 'object',
   properties: {
@@ -185,7 +200,18 @@ export const likeArticleSchema: schemaType = {
   },
   required: ['articleId'],
 }
-export const incrementReadingByIdSchema: schemaType = {
+export const likeCommentSchema: SchemaType = {
+  title: 'likeComment',
+  type: 'object',
+  properties: {
+    commentId: {
+      type: 'string',
+      minLength: 1,
+    },
+  },
+  required: ['commentId'],
+}
+export const incrementReadingByIdSchema: SchemaType = {
   title: 'incrementReadingById',
   type: 'object',
   properties: {
@@ -196,7 +222,7 @@ export const incrementReadingByIdSchema: schemaType = {
   },
   required: ['id'],
 }
-export const collectArticleSchema: schemaType = {
+export const collectArticleSchema: SchemaType = {
   title: 'collectArticle',
   type: 'object',
   properties: {
@@ -208,7 +234,7 @@ export const collectArticleSchema: schemaType = {
   required: ['articleId'],
 }
 
-export const createCommentSchema: schemaType = {
+export const createCommentSchema: SchemaType = {
   title: 'createComment',
   type: 'object',
   properties: {
@@ -231,7 +257,18 @@ export const createCommentSchema: schemaType = {
   },
   required: ['content', 'commentator', 'commented', 'type'],
 }
-export const createDictionarySchema: schemaType = {
+export const deleteCommentSchema: SchemaType = {
+  title: 'deleteComment',
+  type: 'object',
+  properties: {
+    commentId: {
+      type: 'string',
+      minLength: 1,
+    },
+  },
+  required: ['commentId'],
+}
+export const createDictionarySchema: SchemaType = {
   title: 'createDictionary',
   type: 'object',
   properties: {

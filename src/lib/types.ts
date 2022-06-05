@@ -1,17 +1,24 @@
 export type objType = {
   [key: string]: any
 }
-type propertiesType = {
-  [key: string]: any
+type PropertiesType = {
+  [key: string]:
+    | PropertiesType
+    | objType
+    | string
+    | number
+    | boolean
+    | any[]
+    | undefined
   type?:
-  | 'string'
-  | 'object'
-  | 'array'
-  | 'null'
-  | 'boolean'
-  | 'number'
-  | 'integer'
-  properties?: propertiesType
+    | 'string'
+    | 'object'
+    | 'array'
+    | 'null'
+    | 'boolean'
+    | 'number'
+    | 'integer'
+  // properties?: PropertiesType
   contentEncoding?: 'base64'
   contentMediaType?: 'image/png' | 'text/html' | 'application/json'
   enum?: any[]
@@ -40,20 +47,21 @@ type propertiesType = {
   required?: string[]
   dependentRequired?: { [key: string]: any[] }
 }
-export type schemaType = {
+export type SchemaType = {
   $schema?: string
   $id?: string
   title?: string
   description?: string
-  type: 'string'
-  | 'object'
-  | 'array'
-  | 'null'
-  | 'boolean'
-  | 'number'
-  | 'integer'
+  type:
+    | 'string'
+    | 'object'
+    | 'array'
+    | 'null'
+    | 'boolean'
+    | 'number'
+    | 'integer'
   required?: string[]
-  properties?: { [key: string]: propertiesType }
+  properties?: { [key: string]: PropertiesType }
 }
 export type errorType = {
   code: string

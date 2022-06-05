@@ -2,8 +2,7 @@ import { objType } from './types'
 import fs from 'fs'
 
 // 是否是无效的
-export const isInvalid = (v: any) =>
-  v === null || v === undefined || v === NaN
+export const isInvalid = (v: any) => v === null || v === undefined || v === NaN
 // 生成json-schema对象
 export const genSchemaJson = (
   data: objType = {},
@@ -14,9 +13,9 @@ export const genSchemaJson = (
     $schema?: string
     $id?: string
   } = {
-      $schema: 'https://json-schema.org/draft/2020-12/schema',
-      $id: 'https://example.com/product.schema.json',
-    }
+    $schema: 'https://json-schema.org/draft/2020-12/schema',
+    $id: 'https://example.com/product.schema.json',
+  }
 ): { [key: string]: any; $id: string; $schema: string } => {
   return {
     $schema,
@@ -26,7 +25,11 @@ export const genSchemaJson = (
 }
 
 // 生成格式化的response
-export const generateInitResponse = (code: number, message: string, data?: any): ResponseObj<any> => ({ code, message, data })
+export const generateInitResponse = (
+  code: number,
+  message: string,
+  data?: any
+): ResponseObj<any> => ({ code, message, data })
 
 /**
  * 保持图片到指定路径
@@ -36,13 +39,18 @@ export const generateInitResponse = (code: number, message: string, data?: any):
  * @param isCatch 是否开启缓存策略
  * @returns 文件名
  */
-export const saveFile = (path: string, file: any, name?: string, isCatch: boolean = false): boolean | string => {
-  name || (name = Date.now() + "");
+export const saveFile = (
+  path: string,
+  file: any,
+  name?: string,
+  isCatch: boolean = false
+): boolean | string => {
+  name || (name = Date.now() + '')
   const ext = file.name.split('.')[1]
   const filename = name + '.' + ext
-  const newPath = path + "/" + filename
+  const newPath = path + '/' + filename
   try {
-    fs.renameSync(file.path, newPath);
+    fs.renameSync(file.path, newPath)
   } catch (error) {
     // must logger
     return false
@@ -53,13 +61,16 @@ export const saveFile = (path: string, file: any, name?: string, isCatch: boolea
 }
 
 /**
-  * 序列号入口数据，主要把array转string
-  */
-export const enSerializeSqlData = (map: StringObj | undefined, keys: string[]): StringObj | undefined => {
-  if (isInvalid(map)) return map;
-  keys.forEach(key => {
+ * 序列号入口数据，主要把array转string
+ */
+export const enSerializeSqlData = (
+  map: StringObj | undefined,
+  keys: string[]
+): StringObj | undefined => {
+  if (isInvalid(map)) return map
+  keys.forEach((key) => {
     if (Array.isArray(map![key])) {
-      if (isInvalid(map![key])) return;
+      if (isInvalid(map![key])) return
       map![key] = map![key].join(',')
     }
   })
@@ -68,11 +79,17 @@ export const enSerializeSqlData = (map: StringObj | undefined, keys: string[]): 
 /**
  * 序列号入口数据，主要把string转array
  */
-export function deSerializeSqlData<T>(map: T | undefined, keys: string[]): T | undefined {
-  if (isInvalid(map)) return map;
-  keys.forEach(key => {
+export function deSerializeSqlData<T>(
+  map: T | undefined,
+  keys: string[]
+): T | undefined {
+  if (isInvalid(map)) return map
+  keys.forEach((key) => {
+    if (isInvalid(map![key])) {
+      map![key] = []
+      return
+    }
     if (typeof map![key] === 'string') {
-      if (isInvalid(map![key])) return;
       map![key] = map![key].split(',')
     }
   })

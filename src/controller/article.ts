@@ -46,14 +46,29 @@ export default class ArticleController {
       return generateInitResponse(-1, 'error')
     }
   }
-
-  static async getCommentsById(id: string): Promise<ResponseObj<any>> {
+  /**
+   * 根据文章id获取所有评论
+   * @param id 文章id
+   */
+  static async getCommentsById(id: string): Promise<ResponseObj<Comment[]>> {
     const r = await ArticleDio.getCommentsById(id)
     if (r) {
       return generateInitResponse(0, 'ok', r)
     } else {
       return generateInitResponse(-1, 'error')
     }
+  }
+
+  static async getHotCommentsById(
+    id: string,
+    { hot, threshold, limit }
+  ): Promise<ResponseObj<Comment[]>> {
+    const r = await ArticleDio.getCommentsById(id, true, {
+      hot,
+      threshold,
+      limit,
+    })
+    return generateInitResponse(0, 'ok', r)
   }
 
   static async changeArticleReadingById(

@@ -34,6 +34,7 @@ declare interface ChangeArticleForm {
   commentVolume?: number
   commentIds?: string[]
   likeds?: number
+  likedIds?: string[]
 }
 declare interface Article extends CreateArticleForm {
   id: string
@@ -45,6 +46,7 @@ declare interface Article extends CreateArticleForm {
   commentVolume?: number
   commentIds?: string[]
   likeds?: number
+  likedIds?: string[]
 }
 declare interface ArticlePageList extends PageResponse<Article> {}
 
@@ -52,7 +54,6 @@ declare interface ChangeUserForm {
   sex?: 0 | 1
   age?: number
   labels?: string[]
-  likes?: string[]
   collects?: string[]
   follows?: string[]
   followeds?: string[]
@@ -70,7 +71,6 @@ declare interface User {
   createTime?: number
   sex?: 0 | 1
   age?: number
-  likes?: string[]
   collects?: string[]
   follows?: string[]
   followeds?: string[]
@@ -80,12 +80,23 @@ declare interface CreateCommentForm {
   content: string
   commentator: string
   commented: string
+  deep?: number
   type: 1 | 2
+}
+declare interface ChangeCommentForm {
+  likeds?: number
+  likedIds?: string[]
+  content?: string
+  isAvailable?: 0 | 1
+  type?: 1 | 2
 }
 declare interface Comment extends CreateCommentForm {
   id: string
   createTime: number
   likeds?: number
+  likedIds?: string[]
+  deep: number
+  isAvailable?: 0 | 1
 }
 
 declare interface DictionaryForm {
